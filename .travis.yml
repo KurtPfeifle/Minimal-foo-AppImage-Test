@@ -17,6 +17,8 @@ script:
   - cp /usr/share/man/man1/env.1*                    ./appdir/usr/share/man/man1/
     #- cd ./appdir ; ln -s ./usr/bin/foo ./AppRun ; cd -
   - wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64" -O ./appdir/AppRun
+  - ls -l ./appdir/AppRun
+  - chmod a+x ./appdir/AppRun
   - mv appdir Minimal-foo-AppDir
   - tar cvzf ./Minimal-foo-AppDir.tar.gz ./Minimal-foo-AppDir
   - mv Minimal-foo-AppDir appdir
