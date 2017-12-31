@@ -16,7 +16,7 @@ script:
   - cp /usr/share/man/man1/busybox.1*                ./appdir/usr/share/man/man1/
   - cp /usr/share/man/man1/env.1*                    ./appdir/usr/share/man/man1/
     #- cd ./appdir ; ln -s ./usr/bin/foo ./AppRun ; cd -
-  - wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-X86_64 -O ./appdir/AppRun"
+  - wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -O ./appdir/AppRun"
   - mv appdir Minimal-foo-AppDir
   - tar cvzf ./Minimal-foo-AppDir.tar.gz ./Minimal-foo-Appdir
   - mv Minimal-foo-AppDir appdir
