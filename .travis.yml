@@ -16,7 +16,7 @@ script:
   - cp /usr/share/man/man1/busybox.1*                ./appdir/usr/share/man/man1/
   - cp /usr/share/man/man1/env.1*                    ./appdir/usr/share/man/man1/
     #- cd ./appdir ; ln -s ./usr/bin/foo ./AppRun ; cd -
-  - wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64 -O ./appdir/AppRun"
+  - wget -c "https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-x86_64" -O ./appdir/AppRun
   - mv appdir Minimal-foo-AppDir
   - tar cvzf ./Minimal-foo-AppDir.tar.gz ./Minimal-foo-AppDir
   - mv Minimal-foo-AppDir appdir
@@ -45,7 +45,7 @@ after_success:
   - curl --upload-file ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage  https://transfer.sh/foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
   - curl --upload-file ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage   https://transfer.sh/foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
   - curl --upload-file ./Minimal-foo-AppDir.tar.gz                                          https://transfer.sh/Minimal-foo-AppDir.tar.gz
-  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - wget -c "https://github.com/probonopd/uploadtool/raw/master/upload.sh"
   - bash ./upload.sh ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
   - bash ./upload.sh ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
   - bash ./upload.sh ./Minimal-foo-AppDir.tar.gz
