@@ -7,7 +7,7 @@ install:
   - sudo apt-get -y install coreutils busybox
 
 script:
-  - mkdir -p ./appdir/usr/{bin,share/icons/hicolor/256x256/apps,share/{applications,metainfo},man/man1}
+  - mkdir -p ./appdir/usr/{bin,share/{applications,metainfo,man/man1,icons/hicolor/256x256/apps}}
   - cp ./appimage/foo.png                            ./appdir/usr/share/icons/hicolor/256x256/apps/
   - cp ./appimage/org.oneapplication.foo.desktop     ./appdir/usr/share/applications/
   - cp ./appimage/org.oneapplication.foo.appdata.xml ./appdir/usr/share/metainfo/
