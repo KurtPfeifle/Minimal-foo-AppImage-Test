@@ -7,20 +7,25 @@ install:
   - sudo apt-get -y install coreutils busybox
 
 script:
-  - mkdir -p appdir/usr/{bin,share/icons/hicolor/256x256/apps,man/man1}
-  - cp appimage/foo.png                            appdir/usr/share/icons/hicolor/256x256/apps/
-  - cp appimage/org.oneapplication.foo.desktop     appdir/usr/share/applications/
-  - cp appimage/org.oneapplication.foo.appdata.xml appdir/usr/share/metainfo/
-  - cp /usr/bin/env                                appdir/usr/bin/foo
-  - cp /bin/busybox                                appdir/usr/bin/
-  - cd appdir ; ln -s usr/bin/foo ./AppRun ; cd -
+  - mkdir -p ./appdir/usr/{bin,share/icons/hicolor/256x256/apps,share/{applications,metainfo},man/man1}
+  - cp ./appimage/foo.png                            ./appdir/usr/share/icons/hicolor/256x256/apps/
+  - cp ./appimage/org.oneapplication.foo.desktop     ./appdir/usr/share/applications/
+  - cp ./appimage/org.oneapplication.foo.appdata.xml ./appdir/usr/share/metainfo/
+  - cp /usr/bin/env                                  ./appdir/usr/bin/foo
+  - cp /bin/busybox                                  ./appdir/usr/bin/
+  - cp /usr/share/man/man1/busybox.1*                ./appdir/usr/share/man/man1/
+  - cp /usr/share/man/man1/env.1*                    ./appdir/usr/share/man/man1/
+  - cd ./appdir ; ln -s ./usr/bin/foo ./AppRun ; cd -
+  - mv ./appdir ./Minimal-foo-AppDir
+  - tar cvzf ./Minimal-foo-AppDir.tar.gz ./Minimal-foo-Appdir
+  - mv ./Minimal-foo-AppDir ./appdir
   - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-  - chmod a+x linuxdeployqt*.AppImage
+  - chmod a+x ./linuxdeployqt*.AppImage
   - ./linuxdeployqt*.AppImage --appimage-version
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/busybox                  -bundle-non-qt-libs -verbose=2
   - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -verbose=2 -appimage
   - VERSION=$(git rev-parse --short HEAD)
-  - mv foo*.AppImage foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
+  - mv ./foo*.AppImage ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
   - ./linuxdeployqt*.AppImage --appimage-extract
   - ./squashfs-root/usr/bin/appimagetool --version
   - PATH=./squashfs-root/usr/bin:$PATH ./squashfs-root/usr/bin/appimagetool -g -v ./appdir ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
@@ -38,9 +43,11 @@ after_success:
   - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
   - curl --upload-file ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage  https://transfer.sh/foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
   - curl --upload-file ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage   https://transfer.sh/foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+  - curl --upload-file ./Minimal-foo-AppDir.tar.gz                                          https://transfer.sh/Minimal-foo-AppDir.tar.gz
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash ./upload.sh ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
   - bash ./upload.sh ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+  - bash ./upload.sh ./Minimal-foo-AppDir.tar.gz
 
 branches:
   only:
