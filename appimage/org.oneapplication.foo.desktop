@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=foo
+GenericName=foo oneapplication
+Comment=foo oneapplication
+Exec=foo
+Icon=foo
+Terminal=false
+Type=Application
+Categories=Development;

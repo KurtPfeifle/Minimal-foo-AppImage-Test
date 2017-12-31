@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 A Developer <a.developer@example.com> -->
+<component type="desktop-application">
+	<id>org.oneapplication.foo</id>
+	<name>foo application</name>
+	<summary>A foo application from the oneapplication suite which also prints the current environment variables</summary>
+	<developer_name>A Developer</developer_name>
+	<metadata_license>MIT</metadata_license>
+	<project_license>GPL-2.0</project_license>
+	<description>
+		<p>foo is a cross Linux distro application. It belongs to the oneapplication software suite.</p>
+		<p> Whenever it is called, it does foo and also prints the complete set of all current environment variables and their values.</p>
+		<p>At this time Linux is the only officially supported platform. However, Windows, FreeBSD, OpenBSD and OSX ports ports are considered to be undertaken in the distant future too.</p>
+	</description>
+	<screenshots>
+		<screenshot type="default">
+			<caption>foo Interface 2018</caption>
+			<image height="1191" width="992">https://raw.githubusercontent.com/adeveloper/env-oneapplication/master/doc/img/env_interface-2018.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>foo Data View</caption>
+			<image height="783" width="248">https://raw.githubusercontent.com/adeveloper/env-oneapplication/master/doc/img/env_data.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>foo Advanced View</caption>
+			<image height="669" width="486">https://raw.githubusercontent.com/adeveloper/env-oneapplication/master/doc/img/env_advanced.png</image>
+		</screenshot>
+	</screenshots>
+	<provides>
+		<binary>env</binary>
+	</provides>
+	<url type="homepage">https://github.com/adeveloper/env-oneapplication</url>
+	<url type="help">https://github.com/adeveloper/env-oneapplication/wiki</url>
+	<url type="bugtracker">https://github.com/adeveloper/env-oneapplication/issues</url>
+	<x-launchable type="desktop-id">org.oneapplication.env.desktop</x-launchable>
+	<update_contact>a.developer_at_example.com</update_contact>
+	<x-updatecontact>a.developer_at_example.com</x-updatecontact>
+</component>

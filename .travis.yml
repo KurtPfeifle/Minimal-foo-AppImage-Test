@@ -1,0 +1,48 @@
+language: cpp
+compiler: gcc
+sudo: require
+dist: trusty
+
+install:
+	- sudo apt-get -y install coreutils busybox
+
+script:
+	- mkdir -p appdir/usr/{bin,share/icons/hicolor/256x256/apps,man/man1}
+	- cp appimage/foo.png                            appdir/usr/share/icons/hicolor/256x256/apps/
+	- cp appimage/org.oneapplication.foo.desktop     appdir/usr/share/applications/
+	- cp appimage/org.oneapplication.foo.appdata.xml appdir/usr/share/metainfo/
+	- cp /usr/bin/env                                appdir/usr/bin/foo
+	- cp /bin/busybox                                appdir/usr/bin/
+	- cd appdir ; ln -s usr/bin/foo ./AppRun ; cd -
+	- wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+	- chmod a+x linuxdeployqt*.AppImage
+	- ./linuxdeployqt*.AppImage --appimage-version
+	- ./linuxdeployqt*.AppImage ./appdir/usr/bin/busybox                  -bundle-non-qt-libs -verbose=2
+	- ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -verbose=2 -appimage
+	- VERSION=$(git rev-parse --short HEAD)
+	- mv foo*.AppImage foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
+	- ./linuxdeployqt*.AppImage --appimage-extract
+	- ./squashfs-root/usr/bin/appimagetool --version
+	- PATH=./squashfs-root/usr/bin:$PATH ./squashfs-root/usr/bin/appimagetool -g -v ./appdir ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+	- find . -name "*.AppImage" -ls
+	- ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage  --appimage-version
+	- ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage --appimage-version
+	- ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage  --appimage-offset
+	- ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage --appimage-offset
+	- ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage  --appimage-updateinfo
+	- ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage --appimage-updateinfo
+	- ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+	- ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
+
+after_success:
+	- find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+	- curl --upload-file ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage  https://transfer.sh/foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
+	- curl --upload-file ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage   https://transfer.sh/foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+	- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+	- bash ./upload.sh ./foo-made-by-linuxdeployqt-continuous-git.$VERSION-x86_64.AppImage
+	- bash ./upload.sh ./foo-made-by-appimagetool-continuous-git.$VERSION-x86_64.AppImage
+
+branches:
+	only:
+		master
+
